@@ -6,7 +6,9 @@ static float rand_flt(float from, float to)
   return from + (float(rand()) / RAND_MAX) * (to - from);
 }
 
-void register_ecs_phys_systems(flecs::world &ecs)
+/* метод указывает на использование систем для симуляции движения объектов под воздействием 
+гравитации и отскоков от плоскости*/
+void register_ecs_phys_systems(flecs::world &ecs) 
 {
   ecs.system<Velocity, const Gravity, BouncePlane*, Position*>()
     .each([&](flecs::entity e, Velocity &vel, const Gravity &grav, BouncePlane *plane, Position *pos)
@@ -22,7 +24,7 @@ void register_ecs_phys_systems(flecs::world &ecs)
       vel.z += grav.z * e.delta_time();
     });
 
-
+// метод реализует логику отскоков объектов от плоскости в контексте ECS-архитектуры.
   ecs.system<Velocity, Position, const BouncePlane, const Bounciness>()
     .each([&](Velocity &vel, Position &pos, const BouncePlane &plane, const Bounciness &bounciness)
     {
@@ -40,7 +42,8 @@ void register_ecs_phys_systems(flecs::world &ecs)
       }
     });
 
-
+/* метод реализует логику применения трения к скорости объектов в контексте ECS-архитектуры. 
+Значение коэффициента трения (friction.val) определяет, насколько сильно будет замедляться скорость объекта с каждым обновлением*/
   ecs.system<Velocity, const FrictionAmount>()
     .each([&](flecs::entity e, Velocity &vel, const FrictionAmount &friction)
     {
@@ -49,7 +52,8 @@ void register_ecs_phys_systems(flecs::world &ecs)
       vel.z -= vel.z * friction.val * e.delta_time();
     });
 
-
+/* метод реализует логику обновления позиции объектов на основе их скорости в контексте ECS-архитектуры.
+ Значения скорости (vel) используются для изменения позиции объектов на каждом шаге обновления системы*/
   ecs.system<Position, const Velocity>()
     .each([&](flecs::entity e, Position &pos, const Velocity &vel)
     {
@@ -58,7 +62,7 @@ void register_ecs_phys_systems(flecs::world &ecs)
       pos.z += vel.z * e.delta_time();
     });
 
-
+/* метод реализует эффект "дрожания" позиции объектов, добавляя случайное смещение к каждой координате позиции в определенном диапазоне "ShiverAmount"*/
   ecs.system<Position, const ShiverAmount>()
     .each([&](flecs::entity e, Position &pos, const ShiverAmount &shiver)
     {

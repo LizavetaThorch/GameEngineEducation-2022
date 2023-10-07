@@ -14,13 +14,14 @@ InputHandler::InputHandler()
 	MapSymbol("left", VK_LEFT);
 	MapSymbol("right", VK_RIGHT);
 	MapSymbol("space", VK_SPACE);
-
-	MapCommandSymbol("GoLeft", eIC_GoLeft, "a");
-	MapCommandSymbol("GoRight", eIC_GoRight, "d");
-	MapCommandSymbol("Jump", eIC_Jump, "space");
-
-	LoadConfiguration();
-
+  
+  MapCommandSymbol("GoLeft", eIC_GoLeft, "a");
+  MapCommandSymbol("GoRight", eIC_GoRight, "d");
+  MapCommandSymbol("Jump", eIC_Jump, "space");
+  MapCommandSymbol("Shoot", eIC_Shoot, "left");
+  
+  LoadConfiguration();
+  
 	Remap();
 }
 
@@ -84,3 +85,24 @@ void InputHandler::LoadConfiguration()
 		m_commandSymbolMap[strCommand] = strSymbol;
 	}
 }
+
+
+/*
+- InputHandler(): конструктор класса, инициализирует пути к файлу с конфигурацией и выполняет связывание символов с командами,
+  а также загружает конфигурацию и выполняет привязку команд к символам.
+- IsKeyDown(size_t vk_key): возвращает состояние нажатия клавиши. Если клавиша нажата, возвращает true, иначе false.
+- MapSymbol(std::string strSymbol, size_t nSymbol): связывает символ с кодом символа.
+- MapInputEvent(std::size_t nSymbol, size_t nCommand): связывает символ ввода с командой.
+- MapCommandSymbol(std::string strCommand, size_t nCommand, std::string strDefaultSymbol): связывает команду с символом и 
+  устанавливает символ по умолчанию.
+- Remap(): перепривязывает команды к символам на основе текущих связей команд и символов.
+- Update(): обновляет состояние ввода для всех связанных команд в соответствии с текущим состоянием символов.
+- GetInputState(): возвращает состояние ввода в виде std::bitset<eIC_Max>, где каждый бит представляет состояние определенной 
+  команды.
+- LoadConfiguration(): загружает конфигурацию символов и команд из файла actionmap.ini с помощью библиотеки INIReader, 
+  перебирает полученные поля и сохраняет связи команд и символов.
+
+* Класс InputHandler используется для обработки ввода пользователем в игровом приложении. Он позволяет управлять состоянием 
+* ввода для определенных команд, а также загружать настройки ввода из файла конфигурации и устанавливать маппинги символов 
+* и команд.
+*/

@@ -4,6 +4,12 @@
 #include "flecs.h"
 #include "../InputHandler.h"
 
+
+/*
+* обрабатывает каждую сущность с компонентами "Velocity", "Speed" и "Controllable".
+* Внутри функции каждой сущности происходит проверка состояния ввода, получаемого через запрос "inputQuery", 
+* и обновление скорости объекта (vel.x) на основе входных данных
+*/
 void register_ecs_control_systems(flecs::world &ecs)
 {
   static auto inputQuery = ecs.query<InputHandlerPtr>();
@@ -21,6 +27,13 @@ void register_ecs_control_systems(flecs::world &ecs)
       });
     });
 
+
+/*
+* обрабатывает каждую сущность с компонентами "Position", "Velocity", "Controllable", "BouncePlane" и "JumpSpeed". 
+* Внутри функции каждой сущности происходит проверка состояния ввода, получаемого через запрос "inputQuery". 
+* Если объект находится над плоскостью отскока (plane) в пределах заданного значения "plane.w + planeEpsilon", 
+* и входное состояние содержит флаг для прыжка (eIC_Jump), то скорость объекта (vel.y) устанавливается на значение "jump.val".
+*/
   ecs.system<const Position, Velocity, const Controllable, const BouncePlane, const JumpSpeed>()
     .each([&](const Position &pos, Velocity &vel, const Controllable &, const BouncePlane &plane, const JumpSpeed &jump)
     {

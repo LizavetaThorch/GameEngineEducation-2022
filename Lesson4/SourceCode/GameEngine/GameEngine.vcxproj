@@ -176,6 +176,7 @@
     <ClInclude Include="EntitySystem\ecsPhys.h" />
     <ClInclude Include="EntitySystem\ecsSystems.h" />
     <ClInclude Include="EntitySystem\EntitySystem.h" />
+    <ClInclude Include="EntitySystem\escShoot.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTimer.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="EntitySystem\ecsMesh.cpp" />
     <ClCompile Include="EntitySystem\ecsPhys.cpp" />
     <ClCompile Include="EntitySystem\EntitySystem.cpp" />
+    <ClCompile Include="EntitySystem\escShoot.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTimer.cpp" />
