@@ -6,6 +6,15 @@
 #include "RenderEngine.h"
 #include "CubeRenderProxy.h"
 
+/*
+* Фун-ия обрабатывает каждую сущность с компонентом "CubeMesh". Внутри фун-ии каждой сущности происходит создание 
+* объекта визуализации "renderProxy" типа "CubeRenderProxy". Затем, через запрос "renderQuery", происходит доступ 
+* к экземпляру "RenderEnginePtr" для создания объекта визуализации и задания начальной позиции. После этого, экземпляр
+* "renderProxy" связывается с сущностью через компонент "RenderProxyPtr", а компонент "CubeMesh" удаляется.
+* Добавление const Position в фильтр и  позволяют системе создавать рендер-прокси для объектов, у которых есть 
+* компонент const CubeMesh и const Position, и устанавливать их позицию на основе координат из const Position. 
+* Затем компонент CubeMesh удаляется сущности e, чтобы избежать повторной обработки.
+*/
 void register_ecs_mesh_systems(flecs::world &ecs)
 {
   static auto renderQuery = ecs.query<RenderEnginePtr>();
@@ -29,6 +38,13 @@ void register_ecs_mesh_systems(flecs::world &ecs)
       });
     });
 
+/*
+* Фун-ия обрабатывает каждую сущность с компонентами "RenderProxyPtr" и "Position". Внутри функции каждой сущности 
+* происходит доступ к экземпляру "RenderEnginePtr" и обновление позиции объекта визуализации на основе значений 
+* компонента "Position". Общий контекст кода указывает на регистрацию и настройку систем для работы с визуализацией 
+* трехмерных объектов в контексте ECS-архитектуры. Реализация данных систем может быть специфичной для вашего проекта
+*  и требует дальнейшего изучения других компонентов и файлов.
+*/
   ecs.system<RenderProxyPtr, const Position>()
     .each([&](RenderProxyPtr &renderProxy, const Position &pos)
     {

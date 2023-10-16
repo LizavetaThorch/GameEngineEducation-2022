@@ -32,7 +32,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     InputHandler* inputHandler = new InputHandler();
     CScriptSystem* scriptSystem = new CScriptSystem();
 
-    EntitySystem* entitySystem = new EntitySystem(renderEngine, inputHandler);
+
+    EntitySystem* entitySystem = new EntitySystem(renderEngine, inputHandler, scriptSystem);
 
     MSG msg = { 0 };
 
@@ -50,9 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             inputHandler->Update();
-            scriptSystem->Update();
             entitySystem->Update();
-
             timer.Tick();
 
             renderThread->OnEndFrame();
@@ -61,3 +60,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     return (int) msg.wParam;
 }
+
+/*
+* В цикле while происходит обработка сообщений. Если в очереди сообщений есть сообщения, они обрабатываются 
+* с помощью функций PeekMessage, TranslateMessage и DispatchMessage. Если очередь сообщений пуста, 
+* то обновляются inputHandler и entitySystem, выполнение хода таймера с помощью функции Tick, и вызывается метод 
+* OnEndFrame объекта renderThread для завершения кадра рендеринга. Цикл продолжается, пока не поступит сообщение 
+* о закрытии приложения. 
+* Наконец, функция возвращает значение msg.wParam в качестве кода завершения приложения.
+*/
