@@ -1,19 +1,21 @@
-deltaVel = 0;
-
 function MoveLeft(deltaVel, spd)
   return deltaVel - spd
+end
 
 function MoveRight(deltaVel, spd)
   return deltaVel + spd
+end
 
 function Pause(deltaVel) 
   return deltaVel
+end
 
 function UpdateMovements(left, right, deltaVel, spd)
   if left then
-    MoveLeft(left, right, deltaVel, spd)
-  else if right then
-    MoveRight(left, right, deltaVel, spd)
+    return MoveLeft(deltaVel, spd)
+  elseif right then
+    return MoveRight(deltaVel, spd)
   else
-    Pause(left, right, deltaVel)
-  end     
+    return Pause(deltaVel)
+  end
+end

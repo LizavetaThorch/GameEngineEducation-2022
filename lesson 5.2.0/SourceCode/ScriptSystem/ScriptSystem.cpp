@@ -5,7 +5,7 @@
 
 CScriptSystem::CScriptSystem() // конструктор
 {
-    proxy = this->CreateProxy("../../../Assets/scripts/movable.lua");
+    proxy = this->CreateProxy("../../Assets/scripts/movable.lua");
     return;
 }
 

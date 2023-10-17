@@ -3,7 +3,6 @@
 #include "ecsPhys.h"
 #include "flecs.h"
 #include "../InputHandler.h"
-#include "../../ScriptSystem/IScriptSystem.h"
 
 
 /*
@@ -14,24 +13,17 @@
 void register_ecs_control_systems(flecs::world &ecs)
 {
   static auto inputQuery = ecs.query<InputHandlerPtr>();
-  static auto scriptQuery = ecs.query<IScriptSystemPtr>();
-
-  //static ScriptSystem scriptSystem;
   ecs.system<Velocity, const Speed, const Controllable>()
     .each([&](flecs::entity e, Velocity &vel, const Speed &spd, const Controllable &)
     {
       inputQuery.each([&](InputHandlerPtr input)
       {
-        bool left = input.ptr->GetInputState().test(eIC_GoLeft);
-        bool right = input.ptr->GetInputState().test(eIC_GoRight);
-
         float deltaVel = 0.f;
-
-        scriptQuery.each([&](IScriptSystemPtr scriptSystem)
-        {
-            //scriptSystem.ptr->CreateProxy("../../Assets/scripts/movable.lua");
-            vel.x += scriptSystem.ptr->Update(left, right, deltaVel, spd) * e.delta_time();
-        }); 
+        if (input.ptr->GetInputState().test(eIC_GoLeft))
+          deltaVel -= spd;
+        if (input.ptr->GetInputState().test(eIC_GoRight))
+          deltaVel += spd;
+        vel.x += deltaVel * e.delta_time();
       });
     });
 
