@@ -27,13 +27,16 @@ void register_ecs_shoot_systems(flecs::world& ecs)
             // Выстрелить пулей
             e.world().entity()
                 .set(Position{ pos })
-                .set(Velocity{ 2.5f, 0, 0 })
-                .set(Gravity{ 0, -9.8, 0 })
-                .set(BouncePlane{ 0, 1, 0, 0 })
+                .set(Scale{0.1f, 0.05f, 0.05f})
+                .set(Rotation{ 0.f, 0.f, 0.f })
+                .set(Velocity{ 8.5f, 0, 0 })
+                .set(Gravity{ 0, -3.f, 0 })
+                //.set(BouncePlane{ 0, 1, 0, 0 })
                 .set(Bounciness{ 0.4f })
                 .add<Bullet>()
-                .set(LifeTime{ 5.0f, false })
+                .set(LifeTime{ 5.0f, 5.0f, false })
                 .set(FrictionAmount{ 0.2f })
+                .set(Color{ 0xff00ffff })
                 .add<CubeMesh>();
 
             // Уменьшить количество оставшихся выстрелов

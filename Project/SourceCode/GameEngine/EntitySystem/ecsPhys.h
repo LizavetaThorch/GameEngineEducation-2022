@@ -55,7 +55,8 @@ typedef float Speed;
 
 struct LifeTime
 {
-	float time = 5.0f;  // время существования частицы
+	float totalLifeTime = 5.0f; // полное время существования частицы
+	float time = 5.0f; // сколько осталось жить
 	bool started = true;
 };
 
